@@ -1,0 +1,62 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VulnTrack - Detalhe do Ativo</title>
+    {% bootstrap_css %}
+</head>
+<body>
+    <h2>VULNTRACK</h2>
+    <div class="mb-3">
+        <a href="{% url 'index' %}" class="btn btn-secondary">Voltar para Home</a>
+        <a href="{% url 'cadastro_empresa' %}" class="btn btn-primary">Cadastrar Empresa</a>
+        <a href="{% url 'cadastro_funcionario' %}" class="btn btn-primary">Cadastrar Funcionário</a>
+        <a href="{% url 'cadastro_ativo_logico' %}" class="btn btn-primary">Cadastrar Ativo Lógico</a>
+        <a href="{% url 'cadastro_ativo_fisico' %}" class="btn btn-primary">Cadastrar Ativo Físico</a>
+    </div>
+    <h3>Detalhes do Ativo</h3>
+    <div class="card mb-4">
+        <h4>{{ ativo.nome }} ({{ tipo|title }})</h4>
+        <p><strong>Empresa:</strong> {{ ativo.empresa.nome_fantasia }}</p>
+        <p><strong>Descrição:</strong> {{ ativo.descricao }}</p>
+        <p><strong>Nível de Criticidade:</strong> {{ ativo.nivel_criticidade }}</p>
+        <p><strong>Fabricante:</strong> {{ ativo.fabricante }}</p>
+        {% if tipo == 'logico' %}
+            <p><strong>Produto:</strong> {{ ativo.produto }}</p>
+            <p><strong>Versão:</strong> {{ ativo.versao }}</p>
+            <p><strong>CPE:</strong> {{ ativo.cpe }}</p>
+        {% endif %}
+        <p><strong>Número de Série:</strong> {{ ativo.numero_serie }}</p>
+        <p><strong>Responsável:</strong> {{ ativo.responsavel.nome }}</p>
+        <p><strong>Data de Aquisição:</strong> {{ ativo.data_aquisicao|date:"d/m/Y" }}</p>
+        {% if tipo == 'logico' %}
+            <p><strong>Data de Encerramento do Suporte:</strong> {{ ativo.data_encerramento_suporte|date:"d/m/Y" }}</p>
+        {% else %}
+            <p><strong>Data de Encerramento da Garantia:</strong> {{ ativo.data_encerramento_garantia|date:"d/m/Y" }}</p>
+        {% endif %}
+    </div>
+    <h4>Vulnerabilidades Associadas</h4>
+    <a href="{% url 'sincronizar_cves' tipo ativo.id %}" class="btn btn-warning">
+    🔄 Sincronizar Vulnerabilidades do Ativo {{ tipo|title }}
+</a>
+
+<div class="mt-4">
+    <h4>Riscos Identificados</h4>
+    {% for vune in vulnerabilidades %}
+        <div class="card mb-2 border-danger">
+            <div class="card-body">
+                <h5 class="text-danger">{{ vune.cve_id }}</h5>
+                <p>{{ vune.descricao }}</p>
+                <span class="badge bg-secondary">Detectado em: {{ vune.data_identificacao|date:"d/m/Y H:i" }}</span>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">Nenhum risco detectado até o momento.</p>
+    {% endfor %}
+</div>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

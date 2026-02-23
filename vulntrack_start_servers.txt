@@ -1,0 +1,7 @@
+
+servidor web: python manage.py runserver
+cluster de agendamento de tafelas: python manage.py qcluster
+
+para encerrar o qcluster:
+
+no powershell: taskkill /F /IM python.exe /T

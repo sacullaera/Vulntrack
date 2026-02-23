@@ -1,0 +1,31 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VulnTrack</title>
+    {% bootstrap_css %}
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Bem-vindo ao VulnTrack</h1>
+        <p>{{ message }}</p>
+        <div class="mb-3">
+            <a href="{% url 'cadastro_empresa' %}" class="btn btn-primary">Cadastrar Empresa</a>
+            <a href="{% url 'cadastro_funcionario' %}" class="btn btn-primary">Cadastrar Funcionário</a>
+            <a href="{% url 'cadastro_ativo_logico' %}" class="btn btn-primary">Cadastrar Ativo Lógico</a>
+            <a href="{% url 'cadastro_ativo_fisico' %}" class="btn btn-primary">Cadastrar Ativo Físico</a>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Ações Rápidas</h5>
+                    <p class="card-text">Acesse rapidamente as principais funcionalidades do sistema.</p>
+                    <a href="{% url 'dashboard_principal' %}" class="btn btn-secondary">Dashboard de Segurança</a>
+                    <a class="btn btn-secondary" href="/admin/">Admin</a>
+            </div>
+        </div>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body> 
+</html>

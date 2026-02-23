@@ -1,0 +1,39 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VulnTrack - Cadastro de Ativo Lógico</title>
+    {% bootstrap_css %}
+</head>
+<body>
+    <h2>VULNTRACK</h2>
+    <div class="mb-3">
+        <a href="{% url 'index' %}" class="btn btn-secondary">Voltar para Home</a>
+        <a href="{% url 'cadastro_empresa' %}" class="btn btn-primary">Cadastrar Empresa</a>
+        <a href="{% url 'cadastro_funcionario' %}" class="btn btn-primary">Cadastrar Funcionário</a>
+        <a href="{% url 'cadastro_ativo_logico' %}" class="btn btn-primary">Cadastrar Ativo Lógico</a>
+        <a href="{% url 'cadastro_ativo_fisico' %}" class="btn btn-primary">Cadastrar Ativo Físico</a>
+    </div>
+    <div class="container mt-5">
+        <h1>Cadastro de Ativo Lógico</h1>
+        {% if messages %}
+         {% for message in messages %}
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                 {{ message }}
+                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+         {% endfor %}
+        {% endif %}
+        <form action="{% url 'cadastro_ativo_logico' %}" method="post" class = "form" autocomplete="off">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {{ form.media }}
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+    </div>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

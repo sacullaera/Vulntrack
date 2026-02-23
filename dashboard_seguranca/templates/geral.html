@@ -1,0 +1,110 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VulnTrack - Detalhe do Ativo</title>
+    {% bootstrap_css %}
+</head>
+<body>
+    <h2>VULNTRACK</h2>
+    <div class="mb-3">
+        <a href="{% url 'index' %}" class="btn btn-secondary">Voltar para Home</a>
+        <a href="{% url 'cadastro_empresa' %}" class="btn btn-primary">Cadastrar Empresa</a>
+        <a href="{% url 'cadastro_funcionario' %}" class="btn btn-primary">Cadastrar Funcionário</a>
+        <a href="{% url 'cadastro_ativo_logico' %}" class="btn btn-primary">Cadastrar Ativo Lógico</a>
+        <a href="{% url 'cadastro_ativo_fisico' %}" class="btn btn-primary">Cadastrar Ativo Físico</a>
+    </div>
+<div class="container mt-4">
+    <h2>📊 Dashboard de Gestão de Riscos</h2>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Ativos Cadastrados</h5>
+                    <p class="card-text fs-2">{{ total_logicos|add:total_fisicos }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-danger text-white mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Vulnerabilidades Totais</h5>
+                    <p class="card-text fs-2">{{ total_vulnerabilidades }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning text-dark mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Ativos Físicos</h5>
+                    <p class="card-text fs-2">{{ total_fisicos }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-info text-white mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Ativos Lógicos</h5>
+                    <p class="card-text fs-2">{{ total_logicos }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h3>⚠️ Top Ativos em Risco (Lógicos)</h3>
+            <table class="table table-hover mt-2">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Ativo</th>
+                        <th>Fabricante</th>
+                        <th>Vulnerabilidades Detectadas</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ativo in ativos_em_risco_logicos %}
+                    <tr>
+                        <td>{{ ativo.nome }}</td>
+                        <td>{{ ativo.fabricante }}</td>
+                        <td><span class="badge bg-danger">{{ ativo.num_vunes }}</span></td>
+                        <td><a href="{% url 'detalhe_ativo' 'logico' ativo.id %}" class="btn btn-sm btn-outline-secondary">Ver Detalhes</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <h3>⚠️ Top Ativos em Risco (Físicos)</h3>
+            <table class="table table-hover mt-2">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Ativo</th>
+                        <th>Fabricante</th>
+                        <th>Vulnerabilidades Detectadas</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ativo in ativos_em_risco_fisicos %}
+                    <tr>
+                        <td>{{ ativo.nome }}</td>
+                        <td>{{ ativo.fabricante }}</td>
+                        <td><span class="badge bg-danger">{{ ativo.num_vunes }}</span></td>
+                        <td><a href="{% url 'detalhe_ativo' 'fisico' ativo.id %}" class="btn btn-sm btn-outline-secondary">Ver Detalhes</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
